@@ -1,1 +1,2 @@
 registrar(phytronRegister)
+registrar(phytronIoRegister)

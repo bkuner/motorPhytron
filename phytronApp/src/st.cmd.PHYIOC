@@ -1,0 +1,44 @@
+#!../../bin/linux-x86_64/PHYIOC
+
+cd ../..
+epicsEnvSet IOC PHYIOC
+epicsEnvSet IOCSH_PS1 "${IOC}>"
+
+dbLoadDatabase "dbd/$(IOC).dbd",0,0
+${IOC}_registerRecordDeviceDriver pdbbase
+
+drvAsynIPPortConfigure("BOX1","193.149.12.226:22222",0,0,1)
+#phytronCreateController ("MOU1", "BOX1", 250, 250, 1000)
+
+#phytronCreateAxis("MOU1", 1, 1)
+#phytronCreateAxis("MOU1", 2, 1)
+
+phytronCreateIoCtrl( "BOX1","DIG1", 1, 200,"")
+phytronCreateIoCtrl( "BOX1","DIG2", 2, 200,"")
+# Set AIO modules to bipolar
+phytronCreateIoCtrl( "BOX1","AIO1", 1, 200,"DA1.1T1;DA1.2T1;DA1.3T1;DA1.4T1;AD1.1T1;AD1.2T1;AD1.3T1;AD1.4T1")
+phytronCreateIoCtrl( "BOX1","AIO2", 2, 200,"DA2.1T1;DA2.2T1;DA2.3T1;DA2.4T1;AD2.1T1;AD2.2T1;AD2.3T1;AD2.4T1")
+phyreport DIG1
+
+dbLoadRecords db/asynRecord.db "P=test:,R=DIG1,PORT=DIG1,ADDR=-1,OMAX=0,IMAX=0"
+dbLoadRecords db/asynRecord.db "P=test:,R=DIG2,PORT=DIG2,ADDR=-1,OMAX=0,IMAX=0"
+dbLoadRecords db/asynRecord.db "P=test:,R=AIO1,PORT=AIO1,ADDR=-1,OMAX=0,IMAX=0"
+dbLoadRecords db/asynRecord.db "P=test:,R=AIO2,PORT=AIO2,ADDR=-1,OMAX=0,IMAX=0"
+#dbLoadRecords db/phyRecords.db
+dbLoadRecords db/phyIo.db
+
+setIocLogDisable 1
+
+iocInit
+
+
+#asynSetTraceMask("DIG1",0,0x9)
+#asynSetTraceIOMask("DIG1",0,5)
+
+#asynSetTraceMask("DIG2",0,0x9)
+#asynSetTraceIOMask("DIG2",0,0x5)
+
+#asynSetTraceMask("AIO1",0,0x9)
+#asynSetTraceIOMask("AIO1",0,0x5)
+#asynSetTraceMask("AIO2",0,0x9)
+#asynSetTraceIOMask("AIO2",0,0x5)
