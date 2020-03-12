@@ -451,7 +451,7 @@ void phytronController::resetAxisEncoderRatio(){
   */
 void phytronController::report(FILE *fp, int level)
 {
-  fprintf(fp, "MCB-4B motor driver %s, numAxes=%d, moving poll period=%f, idle poll period=%f\n",
+  fprintf(fp, "PhyMotion motor driver %s, numAxes=%d, moving poll period=%f, idle poll period=%f\n",
     this->portName, numAxes_, movingPollPeriod_, idlePollPeriod_);
 
   // Call the base class method
@@ -485,6 +485,7 @@ phytronAxis* phytronController::getAxis(int axisNo)
  * @param timeout
  * @return
  */
+
 phytronStatus phytronController::sendPhytronCommand(const char *command, char *response_buffer, size_t response_max_len, size_t *nread)
 {
     char buffer[255];
